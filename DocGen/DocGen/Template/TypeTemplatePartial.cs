@@ -9,5 +9,8 @@ namespace DocGen.Template
     partial class TypeTemplate
     {
         public DocLoader.TypeMember Member;
+        private void Playground()
+        {
+        }
     }
 }
