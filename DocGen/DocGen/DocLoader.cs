@@ -14,7 +14,7 @@ namespace DocGen
     {
         class Member
         {
-            public string Name;
+            public string FullName;
             public string Summary;
             public virtual void Load(Assembly assembly)
             {
@@ -26,7 +26,21 @@ namespace DocGen
             public override void Load(Assembly assembly)
             {
                 base.Load(assembly);
-                Type = assembly.GetType(Name);
+                Type = assembly.GetType(FullName);
+            }
+        }
+        class MethodMember : Member
+        {
+            public string Name;
+            public string Type;
+            MethodInfo Method;
+            public override void Load(Assembly assembly)
+            {
+                base.Load(assembly);
+                Name = FullName.Split('(')[0].Split('.').Last();
+                var pieces = FullName.Split('(')[0].Split('.');
+                Type = string.Join(".", pieces.Take(pieces.Length - 1));
+                Method = assembly.GetType(Type).GetMethod(Name);
             }
         }
         List<Member> Members = new List<Member>();
@@ -51,12 +65,15 @@ namespace DocGen
                     case 'T':
                         result = new TypeMember();
                         break;
+                    case 'M':
+                        result = new MethodMember();
+                        break;
                     default:
                         result = new Member();
                         Console.WriteLine("Did not understand {0}", member.Attribute("name").Value[0]);
                         break;
                 }
-                result.Name = member.Attribute("name").Value.Substring(2);
+                result.FullName = member.Attribute("name").Value.Substring(2);
                 result.Summary = member.Element("summary").Value;
                 result.Load(assembly);
                 Members.Add(result);
