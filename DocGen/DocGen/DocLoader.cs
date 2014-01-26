@@ -10,40 +10,57 @@ namespace DocGen
     /// <summary>
     /// Loads all the date required for generating documentation
     /// </summary>
-    class DocLoader
+    public class DocLoader
     {
-        class Member
+        public class Member
         {
             public string FullName;
             public string Summary;
             public virtual void Load(Assembly assembly)
             {
             }
+            protected Type LoadType(string FullName, Assembly assembly)
+            {
+                var type = assembly.GetType(FullName);
+                if (type == null)
+                {
+                    type = assembly.GetTypes().FirstOrDefault(t => t.FullName.Replace('+', '.') == FullName);
+                }
+                if (type == null)
+                    type = Type.GetType(FullName);
+                return type;
+            }
         }
-        class TypeMember:Member
+        public class TypeMember : Member
         {
             public Type Type;
             public override void Load(Assembly assembly)
             {
                 base.Load(assembly);
-                Type = assembly.GetType(FullName);
+                Type = LoadType(FullName,assembly);
             }
         }
-        class MethodMember : Member
+        public class MethodMember : Member
         {
             public string Name;
-            public string Type;
+            public Type Type;
             MethodInfo Method;
             public override void Load(Assembly assembly)
             {
                 base.Load(assembly);
                 Name = FullName.Split('(')[0].Split('.').Last();
                 var pieces = FullName.Split('(')[0].Split('.');
-                Type = string.Join(".", pieces.Take(pieces.Length - 1));
-                Method = assembly.GetType(Type).GetMethod(Name);
+
+                Type = LoadType(string.Join(".", pieces.Take(pieces.Length - 1)),assembly);
+
+
+                Type[] typeArray = new Type[] { };
+                if (FullName.Contains('('))
+                    typeArray = FullName.TrimEnd(')').Split('(')[1].Split(',').Select(t => LoadType(t, assembly)).ToArray();
+                Method = Type.GetMethod(Name,typeArray);
             }
         }
-        List<Member> Members = new List<Member>();
+        public List<Member> Members = new List<Member>();
         /// <summary>
         /// The name of the assembly from the loaded file
         /// </summary>

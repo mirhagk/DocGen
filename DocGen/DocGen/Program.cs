@@ -12,6 +12,8 @@ namespace DocGen
         {
             DocLoader loader = new DocLoader();
             loader.Load("DocGen");
+            Generator generator = new Generator();
+            generator.Generate("output", loader);
         }
     }
 }
