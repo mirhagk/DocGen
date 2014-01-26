@@ -8,5 +8,11 @@
 	<body>
 		<h1><#=Member.FullName#></h1>
 		<p><#=Member.Summary#></p>
+		<h2>Methods</h2>
+		<ul>
+		<#foreach (var method in Member.Type.GetMethods()){#>
+			<li><#=method.Name#></li>
+        <#}#>
+		</ul>
 	</body>
 </html>

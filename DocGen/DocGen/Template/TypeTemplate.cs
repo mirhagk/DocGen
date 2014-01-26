@@ -42,7 +42,28 @@ namespace DocGen.Template
             
             #line default
             #line hidden
-            this.Write("</p>\r\n\t</body>\r\n</html>");
+            this.Write("</p>\r\n\t\t<h2>Methods</h2>\r\n\t\t<ul>\r\n\t\t");
+            
+            #line 13 "C:\Users\mirhagk\Documents\GitHub\DocGen\DocGen\DocGen\Template\TypeTemplate.tt"
+foreach (var method in Member.Type.GetMethods()){
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t<li>");
+            
+            #line 14 "C:\Users\mirhagk\Documents\GitHub\DocGen\DocGen\DocGen\Template\TypeTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(method.Name));
+            
+            #line default
+            #line hidden
+            this.Write("</li>\r\n        ");
+            
+            #line 15 "C:\Users\mirhagk\Documents\GitHub\DocGen\DocGen\DocGen\Template\TypeTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t\t</ul>\r\n\t</body>\r\n</html>");
             return this.GenerationEnvironment.ToString();
         }
     }
