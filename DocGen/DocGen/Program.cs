@@ -10,6 +10,8 @@ namespace DocGen
     {
         static void Main(string[] args)
         {
+            DocLoader loader = new DocLoader();
+            loader.Load("DocGen");
         }
     }
 }
