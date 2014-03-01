@@ -13,9 +13,9 @@ namespace DocGen
         {
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            var template = new Template.TypeTemplate();
-            foreach (DocLoader.TypeMember type in loader.Members.Where(m => m is DocLoader.TypeMember))
+            foreach (DocLoader.Member type in loader.Members)
             {
+                var template = new Templates.HtmlTemplate();
                 template.Member=type;
                 File.WriteAllText(Path.Combine(path, type.FullName+".html"), template.TransformText());
             }
