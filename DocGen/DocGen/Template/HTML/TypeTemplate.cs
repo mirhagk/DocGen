@@ -31,41 +31,83 @@ namespace DocGen.Template.HTML
             this.Write("<html>\r\n\r\n\t<body>\r\n\t\t<h1>class ");
             
             #line 10 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Member.FullName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Member.Type.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" - ");
+            
+            #line 10 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Member.FQN));
             
             #line default
             #line hidden
             this.Write("</h1>\r\n\t\t<p>");
             
             #line 11 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Member.Summary));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Member.Summary??"No documentation provided for this member"));
             
             #line default
             #line hidden
-            this.Write("</p>\r\n\t\t<h2>Methods</h2>\r\n\t\t<ul>\r\n\t\t");
+            this.Write("</p>\r\n\t\t<h2>Nested Types</h2>\r\n\t\t<ul>\r\n\t\t");
             
             #line 14 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
+foreach(var type in Member.NestedTypes){
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t<li><a href=\"");
+            
+            #line 15 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(type.FullName+".html"));
+            
+            #line default
+            #line hidden
+            this.Write("\">");
+            
+            #line 15 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(type.Type.Name));
+            
+            #line default
+            #line hidden
+            this.Write("</a> - ");
+            
+            #line 15 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(type.Summary??"No documentation provided for this member"));
+            
+            #line default
+            #line hidden
+            this.Write("</li>\r\n\t\t");
+            
+            #line 16 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t\t</ul>\r\n\t\t<h2>Methods</h2>\r\n\t\t<ul>\r\n\t\t");
+            
+            #line 20 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
 foreach (var method in Member.Type.GetMethods()){
             
             #line default
             #line hidden
             this.Write("\t\t\t<li>");
             
-            #line 15 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
+            #line 21 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Name));
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 15 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
+            #line 21 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.ReflectedType.FullName));
             
             #line default
             #line hidden
             this.Write("</li>\r\n\r\n        ");
             
-            #line 17 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
+            #line 23 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
 }
             
             #line default

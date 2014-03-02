@@ -4,20 +4,35 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace DocGen
 {
     /// <summary>
-    /// Loads all the date required for generating documentation
+    /// Loads all the data required for generating documentation
     /// </summary>
     public class DocLoader
     {
+        private static XElement GetDocumentation(XElement root, Member member)
+        {
+            var elements = root.Element("members").Elements().Where(e => e.Attribute("name") != null);
+            var element = elements.FirstOrDefault(e=>e.Attribute("name").Value==("T:" + member.FQN));
+            return element;
+        }
         public class Member
         {
             public string FullName;
+            public string FQN;
             public string Summary;
-            public virtual void Load(Assembly assembly)
+            public XElement Documentation;
+            public virtual void Load(XElement documentation)
             {
+                var element = GetDocumentation(documentation, this);
+                Documentation = element;
+                if (element == null)
+                    Summary = null;
+                else
+                    Summary = element.Element("summary").Value;
             }
             protected Type LoadType(string FullName, Assembly assembly)
             {
@@ -31,13 +46,29 @@ namespace DocGen
                 return type;
             }
         }
+        /// <summary>
+        /// Represents a type (class), with all of the required fields for documentation generation
+        /// </summary>
         public class TypeMember : Member
         {
             public Type Type;
-            public override void Load(Assembly assembly)
+            public List<TypeMember> NestedTypes = new List<TypeMember>();
+            public List<MethodMember> Methods = new List<MethodMember>();
+            public TypeMember(Type type)
             {
-                base.Load(assembly);
-                Type = LoadType(FullName,assembly);
+                this.FullName = type.FullName;
+                this.Type = type;
+                this.FQN = this.FullName.Replace('+', '.');
+            }
+            public override void Load(XElement documentation)
+            {
+                base.Load(documentation);
+                foreach (Type nestedType in Type.GetNestedTypes(BindingFlags.DeclaredOnly|BindingFlags.Public))
+                {
+                    NestedTypes.Add(new TypeMember(nestedType));
+                }
+                foreach (var nestedType in NestedTypes)
+                    nestedType.Load(documentation);
             }
         }
         public class MethodMember : Member
@@ -45,9 +76,10 @@ namespace DocGen
             public string Name;
             public Type Type;
             MethodInfo Method;
-            public override void Load(Assembly assembly)
+            /*
+            public override void Load(Assembly assembly, XElement documentation)
             {
-                base.Load(assembly);
+                base.Load(assembly,documentation);
                 Name = FullName.Split('(')[0].Split('.').Last();
                 var pieces = FullName.Split('(')[0].Split('.');
 
@@ -58,9 +90,26 @@ namespace DocGen
                 if (FullName.Contains('('))
                     typeArray = FullName.TrimEnd(')').Split('(')[1].Split(',').Select(t => LoadType(t, assembly)).ToArray();
                 Method = Type.GetMethod(Name,typeArray);
-            }
+            }*/
         }
         public List<Member> Members = new List<Member>();
+        public IEnumerable<Member> AllMembers
+        {
+            get
+            {
+                return Members.SelectMany(m => AllChildMembers(m)).Union(Members);
+            }
+        }
+        private IEnumerable<Member> AllChildMembers(Member member)
+        {
+            var typeMember = member as TypeMember;
+            if (typeMember != null)
+            {
+                foreach (var nestedType in typeMember.NestedTypes)
+                    yield return nestedType;
+            }
+            yield break;
+        }
         /// <summary>
         /// The name of the assembly from the loaded file
         /// </summary>
@@ -72,7 +121,15 @@ namespace DocGen
         public void Load(string filename)
         {
             var assembly = Assembly.LoadFile(System.IO.Path.GetFullPath(filename + ".exe"));
-            var document = System.Xml.Linq.XDocument.Load(filename+".xml").Element("doc");
+            var document = XDocument.Load(filename + ".xml").Element("doc");
+            foreach (var type in assembly.GetTypes().Where(t=>t.DeclaringType==null))
+            {
+                Console.WriteLine(type);
+                var typeMember = new TypeMember(type);
+                Members.Add(typeMember);
+            }
+            foreach (var member in Members) member.Load(document);
+            /*
             AssemblyName = document.Element("assembly").Element("name").Value;
             foreach (var member in document.Element("members").Elements())
             {
@@ -96,7 +153,7 @@ namespace DocGen
                 Members.Add(result);
             }
 
-            System.Diagnostics.Debug.Assert(assembly.GetName().Name == AssemblyName);
+            System.Diagnostics.Debug.Assert(assembly.GetName().Name == AssemblyName);*/
         }
     }
 }

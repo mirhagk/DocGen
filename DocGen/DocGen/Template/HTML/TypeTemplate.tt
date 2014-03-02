@@ -7,8 +7,14 @@
 <html>
 
 	<body>
-		<h1>class <#=Member.FullName#></h1>
-		<p><#=Member.Summary#></p>
+		<h1>class <#=Member.Type.Name#> - <#=Member.FQN#></h1>
+		<p><#=Member.Summary??"No documentation provided for this member"#></p>
+		<h2>Nested Types</h2>
+		<ul>
+		<#foreach(var type in Member.NestedTypes){#>
+			<li><a href="<#=type.FullName+".html"#>"><#=type.Type.Name#></a> - <#=type.Summary??"No documentation provided for this member"#></li>
+		<#}#>
+		</ul>
 		<h2>Methods</h2>
 		<ul>
 		<#foreach (var method in Member.Type.GetMethods()){#>
