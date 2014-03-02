@@ -8,7 +8,6 @@
 
 	<body>
 		<h1>Method <#=Member.FullName#></h1>
-		<p><#=Member.Summary#></p>
-		<p><#=Member.Type#></p>
+		<p><#=Member.Summary??"No documentation provided for this member"#></p>
 	</body>
 </html>

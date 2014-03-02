@@ -38,14 +38,7 @@ namespace DocGen.Template.HTML
             this.Write("</h1>\r\n\t\t<p>");
             
             #line 11 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\MethodTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Member.Summary));
-            
-            #line default
-            #line hidden
-            this.Write("</p>\r\n\t\t<p>");
-            
-            #line 12 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\MethodTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Member.Type));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Member.Summary??"No documentation provided for this member"));
             
             #line default
             #line hidden

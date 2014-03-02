@@ -32,13 +32,13 @@ namespace DocGen
             {
                 var template = new Template.HTML.TypeTemplate();
                 template.Member=type;
-                File.WriteAllText(Path.Combine(path, type.FullName+".html"), template.TransformText());
+                File.WriteAllText(Path.Combine(path, type.SafeName + ".html"), template.TransformText());
             }
-            foreach (DocLoader.MethodMember method in loader.Members.Where(m => m is DocLoader.MethodMember))
+            foreach (DocLoader.MethodMember method in loader.AllMembers.Where(m => m is DocLoader.MethodMember))
             {
                 var template = new Template.HTML.MethodTemplate();
                 template.Member = method;
-                File.WriteAllText(Path.Combine(path, method.FullName + ".html"), template.TransformText());
+                File.WriteAllText(Path.Combine(path, method.SafeName + ".html"), template.TransformText());
             }
         }
     }

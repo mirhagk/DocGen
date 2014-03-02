@@ -21,6 +21,13 @@ namespace DocGen
         }
         public class Member
         {
+            public string SafeName
+            {
+                get
+                {
+                    return FQN.Replace('<','_').Replace('>','_');
+                }
+            }
             public string FullName;
             public string FQN;
             public string Summary;
@@ -67,6 +74,14 @@ namespace DocGen
                 {
                     NestedTypes.Add(new TypeMember(nestedType));
                 }
+                var search = BindingFlags.DeclaredOnly;
+                search |= BindingFlags.Public;
+                search |= BindingFlags.Instance;
+                search |= BindingFlags.Static;
+                foreach (MethodInfo method in Type.GetMethods(search))
+                {
+                    Methods.Add(new MethodMember(this, method));
+                }
                 foreach (var nestedType in NestedTypes)
                     nestedType.Load(documentation);
             }
@@ -76,6 +91,17 @@ namespace DocGen
             public string Name;
             public Type Type;
             MethodInfo Method;
+            public MethodMember(TypeMember containingType, MethodInfo method)
+            {
+                this.Method = method;
+                this.Name = method.Name;
+                this.FullName = containingType.FQN + "."+method.Name;
+                this.FQN = this.FullName;
+            }
+            public override void Load(XElement documentation)
+            {
+                base.Load(documentation);
+            }
             /*
             public override void Load(Assembly assembly, XElement documentation)
             {
@@ -107,6 +133,8 @@ namespace DocGen
             {
                 foreach (var nestedType in typeMember.NestedTypes)
                     yield return nestedType;
+                foreach (var method in typeMember.Methods)
+                    yield return method;
             }
             yield break;
         }
