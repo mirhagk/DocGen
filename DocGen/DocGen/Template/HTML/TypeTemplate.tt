@@ -3,15 +3,17 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".xml"#>
 <html>
 
 	<body>
-		<h1><#=Member.FullName#></h1>
+		<h1>class <#=Member.FullName#></h1>
 		<p><#=Member.Summary#></p>
 		<h2>Methods</h2>
 		<ul>
 		<#foreach (var method in Member.Type.GetMethods()){#>
-			<li><#=method.Name#></li>
+			<li><#=method.Name#>: <#=method.ReflectedType.FullName#></li>
+
         <#}#>
 		</ul>
 	</body>

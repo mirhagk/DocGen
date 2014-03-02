@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DocGen.Template
+namespace DocGen.Template.HTML
 {
     partial class TypeTemplate
     {

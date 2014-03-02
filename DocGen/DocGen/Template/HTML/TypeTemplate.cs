@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace DocGen.Template
+namespace DocGen.Template.HTML
 {
     using System.Linq;
     using System.Text;
@@ -18,7 +18,7 @@ namespace DocGen.Template
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\mirhagk\Documents\GitHub\DocGen\DocGen\DocGen\Template\TypeTemplate.tt"
+    #line 1 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "12.0.0.0")]
     public partial class TypeTemplate : TypeTemplateBase
     {
@@ -28,37 +28,44 @@ namespace DocGen.Template
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<html>\r\n\r\n\t<body>\r\n\t\t<h1>");
+            this.Write("<html>\r\n\r\n\t<body>\r\n\t\t<h1>class ");
             
-            #line 9 "C:\Users\mirhagk\Documents\GitHub\DocGen\DocGen\DocGen\Template\TypeTemplate.tt"
+            #line 10 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Member.FullName));
             
             #line default
             #line hidden
             this.Write("</h1>\r\n\t\t<p>");
             
-            #line 10 "C:\Users\mirhagk\Documents\GitHub\DocGen\DocGen\DocGen\Template\TypeTemplate.tt"
+            #line 11 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Member.Summary));
             
             #line default
             #line hidden
             this.Write("</p>\r\n\t\t<h2>Methods</h2>\r\n\t\t<ul>\r\n\t\t");
             
-            #line 13 "C:\Users\mirhagk\Documents\GitHub\DocGen\DocGen\DocGen\Template\TypeTemplate.tt"
+            #line 14 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
 foreach (var method in Member.Type.GetMethods()){
             
             #line default
             #line hidden
             this.Write("\t\t\t<li>");
             
-            #line 14 "C:\Users\mirhagk\Documents\GitHub\DocGen\DocGen\DocGen\Template\TypeTemplate.tt"
+            #line 15 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Name));
             
             #line default
             #line hidden
-            this.Write("</li>\r\n        ");
+            this.Write(": ");
             
-            #line 15 "C:\Users\mirhagk\Documents\GitHub\DocGen\DocGen\DocGen\Template\TypeTemplate.tt"
+            #line 15 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(method.ReflectedType.FullName));
+            
+            #line default
+            #line hidden
+            this.Write("</li>\r\n\r\n        ");
+            
+            #line 17 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
 }
             
             #line default
