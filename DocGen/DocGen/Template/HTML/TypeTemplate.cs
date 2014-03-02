@@ -28,7 +28,7 @@ namespace DocGen.Template.HTML
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<html>\r\n\r\n\t<body>\r\n\t\t<h1>class ");
+            this.Write("<html>\r\n\r\n\t<body>\r\n\t\t<h1 class=\"name\">class ");
             
             #line 10 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Member.Type.Name));
@@ -42,7 +42,7 @@ namespace DocGen.Template.HTML
             
             #line default
             #line hidden
-            this.Write("</h1>\r\n\t\t<p>");
+            this.Write("</h1>\r\n\t\t<p class=\"summary\">");
             
             #line 11 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Member.Summary??"No documentation provided for this member"));
@@ -59,7 +59,7 @@ foreach(var type in Member.NestedTypes){
             this.Write("\t\t\t<li><a href=\"");
             
             #line 15 "C:\Users\nathan\Documents\GitHub\DocGen\DocGen\DocGen\Template\HTML\TypeTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(type.FullName+".html"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(type.SafeName+".html"));
             
             #line default
             #line hidden
