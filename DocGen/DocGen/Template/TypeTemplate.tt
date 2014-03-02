@@ -10,9 +10,9 @@
 		<p><#=Member.Summary#></p>
 		<h2>Methods</h2>
 		<ul>
-		<#//foreach (var method in Member.Type.GetMethods()){#>
-			<li><#=/*method.Name*/4#></li>
-        <#//}#>
+		<#foreach (var method in Member.Type.GetMethods()){#>
+			<li><#=method.Name#></li>
+        <#}#>
 		</ul>
 	</body>
 </html>

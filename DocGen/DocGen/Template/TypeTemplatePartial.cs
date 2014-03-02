@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DocGen.Templates
+namespace DocGen.Template
 {
-    partial class HtmlTemplate
+    partial class TypeTemplate
     {
-        public DocLoader.Member Member;
+        public DocLoader.TypeMember Member;
         private void Playground()
         {
         }

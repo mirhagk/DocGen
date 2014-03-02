@@ -46,18 +46,18 @@
     <Compile Include="Generator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Templates\HtmlTemplate.cs">
+    <Compile Include="Template\TypeTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>HtmlTemplate.tt</DependentUpon>
+      <DependentUpon>TypeTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\HtmlTemplatePartial.cs" />
+    <Compile Include="Template\TypeTemplatePartial.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Templates\HtmlTemplate.tt">
+    <None Include="Template\TypeTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>HtmlTemplate.cs</LastGenOutput>
+      <LastGenOutput>TypeTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -14,8 +14,6 @@ namespace DocGen
             loader.Load("DocGen");
             Generator generator = new Generator();
             generator.Generate("output", loader);
-            Console.WriteLine("Done");
-            Console.ReadKey();
         }
     }
 }

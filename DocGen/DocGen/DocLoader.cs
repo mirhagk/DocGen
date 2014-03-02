@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DocGen
 {
     /// <summary>
-    /// Loads all the data required for generating documentation
+    /// Loads all the date required for generating documentation
     /// </summary>
     public class DocLoader
     {
@@ -30,9 +30,6 @@ namespace DocGen
                     type = Type.GetType(FullName);
                 return type;
             }
-        }
-        public class PropertyMember : Member
-        {
         }
         public class TypeMember : Member
         {
@@ -87,9 +84,6 @@ namespace DocGen
                         break;
                     case 'M':
                         result = new MethodMember();
-                        break;
-                    case 'P':
-                        result = new PropertyMember();
                         break;
                     default:
                         result = new Member();
